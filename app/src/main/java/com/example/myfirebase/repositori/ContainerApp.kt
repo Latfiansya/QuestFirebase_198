@@ -1,6 +1,7 @@
 package com.example.myfirebase.repositori
 
 import android.app.Application
+import kotlin.getValue
 
 interface ContainerApp {
     val repositorySiswa: RepositorySiswa
