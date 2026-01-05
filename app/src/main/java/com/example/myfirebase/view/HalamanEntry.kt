@@ -1,6 +1,5 @@
 package com.example.myfirebase.view
 
-import EntryViewModel
 import SiswaTopAppBar
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +13,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import com.example.myfirebase.R
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -26,9 +24,11 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myfirebase.R
 import com.example.myfirebase.modeldata.DetailSiswa
 import com.example.myfirebase.modeldata.UIStateSiswa
 import com.example.myfirebase.view.route.DestinasiEntry
+import com.example.myfirebase.viewmodel.EntryViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,7 +40,6 @@ fun EntrySiswaScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
     Scaffold(
         modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -78,17 +77,14 @@ fun EntrySiswaBody(
     modifier: Modifier = Modifier
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.padding_large)
-        ),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_large)),
         modifier = modifier.padding(dimensionResource(id = R.dimen.padding_medium))
     ) {
-        FormTambahSiswa(
+        FormInputSiswa(
             detailSiswa = uiStateSiswa.detailSiswa,
             onValueChange = onSiswaValueChange,
             modifier = Modifier.fillMaxWidth()
         )
-
         Button(
             onClick = onSaveClick,
             enabled = uiStateSiswa.isEntryValid,
@@ -101,7 +97,7 @@ fun EntrySiswaBody(
 }
 
 @Composable
-fun FormTambahSiswa(
+fun FormInputSiswa(
     detailSiswa: DetailSiswa,
     modifier: Modifier = Modifier,
     onValueChange: (DetailSiswa) -> Unit = {},
@@ -109,9 +105,7 @@ fun FormTambahSiswa(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(
-            dimensionResource(id = R.dimen.padding_medium)
-        )
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         OutlinedTextField(
             value = detailSiswa.nama,
@@ -135,7 +129,7 @@ fun FormTambahSiswa(
             value = detailSiswa.telpon,
             onValueChange = { onValueChange(detailSiswa.copy(telpon = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text(stringResource(R.string.telpon)) },
+            label = { Text(text = stringResource(R.string.telpon)) },
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
             singleLine = true
@@ -144,16 +138,12 @@ fun FormTambahSiswa(
         if (enabled) {
             Text(
                 text = stringResource(R.string.required_field),
-                modifier = Modifier
-                    .padding(start = dimensionResource(id = R.dimen.padding_medium))
+                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
             )
         }
-
-        Divider(
-            thickness = dimensionResource(R.dimen.padding_small),
-            modifier = Modifier.padding(
-                bottom = dimensionResource(R.dimen.padding_medium)
-            )
-        )
     }
+    Divider(
+        thickness = dimensionResource(R.dimen.padding_small),
+        modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+    )
 }
