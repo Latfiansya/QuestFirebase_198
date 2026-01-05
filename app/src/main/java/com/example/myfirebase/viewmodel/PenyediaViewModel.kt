@@ -7,23 +7,14 @@ import com.example.myfirebase.viewmodel.EntryViewModel
 
 
 fun CreationExtras.aplikasiDataSiswa(): AplikasiDataSiswa =
-    this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AplikasiDataSiswa
+    this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
+            AplikasiDataSiswa
 
 
 object PenyediaViewModel {
 
     val Factory = viewModelFactory {
-
-        initializer {
-            HomeViewModel(
-                aplikasiDataSiswa().container.repositorySiswa
-            )
-        }
-
-        initializer {
-            EntryViewModel(
-                aplikasiDataSiswa().container.repositorySiswa
-            )
-        }
+        initializer { HomeViewModel(aplikasiDataSiswa().container.repositorySiswa) }
+        initializer { EntryViewModel(aplikasiDataSiswa().container.repositorySiswa) }
     }
 }
