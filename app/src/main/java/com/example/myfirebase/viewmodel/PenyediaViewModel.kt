@@ -3,8 +3,6 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.myfirebase.repositori.AplikasiDataSiswa
-import com.example.myfirebase.viewmodel.EntryViewModel
-
 
 fun CreationExtras.aplikasiDataSiswa(): AplikasiDataSiswa =
     this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as
