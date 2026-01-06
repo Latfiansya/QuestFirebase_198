@@ -15,27 +15,52 @@ import com.example.myfirebase.view.route.DestinasiEntry
 import com.example.myfirebase.view.route.DestinasiHome
 
 @Composable
-fun DataSiswaApp(navController: NavHostController = rememberNavController(), modifier: Modifier){
-    HostNavigasi(navController = navController)
+fun DataSiswaApp(
+    navController: NavHostController = rememberNavController(),
+    modifier: Modifier = Modifier
+) {
+    HostNavigasi(navController = navController, modifier = modifier)
 }
 
 @Composable
 fun HostNavigasi(
     navController: NavHostController,
     modifier: Modifier = Modifier
-){
-    NavHost(navController = navController, startDestination = DestinasiHome.route,
-        modifier = Modifier ){
+) {
+    NavHost(
+        navController = navController,
+        startDestination = DestinasiHome.route,
+        modifier = modifier
+    ) {
+
         composable(DestinasiHome.route) {
-            HomeScreen(navigateToItemEntry = { navController.navigate(
-                DestinasiEntry
-                .route) },
-                navigateToItemUpdate = {
-                    navController.navigate("${DestinasiDetail.route}/${it}")})
+            HomeScreen(
+                navigateToItemEntry = {
+                    navController.navigate(DestinasiEntry.route)
+                },
+                navigateToItemUpdate = { id ->
+                    navController.navigate("${DestinasiDetail.route}/$id")
+                }
+            )
         }
-        composable(DestinasiEntry.route){
-            EntrySiswaScreen(navigateBack = { navController.navigate(DestinasiHome.route)
+
+        composable(DestinasiEntry.route) {
+            EntrySiswaScreen(
+                navigateBack = {
+                    navController.navigate(DestinasiHome.route)
+                }
+            )
+        }
+
+        composable(
+            route = DestinasiDetail.routeWithArgs,
+            arguments = listOf(navArgument(DestinasiDetail.itemIdArg) {
+                type = NavType.IntType
             })
+        ) { backStackEntry ->
+            val id = backStackEntry.arguments?.getInt(DestinasiDetail.itemIdArg) ?: 0
+
+            // TODO: panggil DetailSiswaScreen(id)
         }
     }
 }
