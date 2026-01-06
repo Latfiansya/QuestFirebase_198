@@ -30,19 +30,24 @@ class FirebaseRepositorySiswa : RepositorySiswa {
     }
 
     override suspend fun postDataSiswa(siswa: Siswa) {
-        val docRef = if (siswa.id == 0L) {
-            collection.document()
-        } else {
-            collection.document(siswa.id.toString())
+        try {
+            val docRef = if (siswa.id == 0L) {
+                collection.document()
+            } else {
+                collection.document(siswa.id.toString())
+            }
+
+            val data = hashMapOf(
+                "id" to (if (siswa.id == 0L) docRef.id.hashCode().toLong() else siswa.id),
+                "nama" to siswa.nama,
+                "alamat" to siswa.alamat,
+                "telpon" to siswa.telpon
+            )
+
+            docRef.set(data).await()
+        } catch (e: Exception) {
+            println("Error saving data: ${e.message}")
         }
 
-        val data = hashMapOf(
-            "id" to (if (siswa.id == 0L) docRef.id.hashCode().toLong() else siswa.id),
-            "nama" to siswa.nama,
-            "alamat" to siswa.alamat,
-            "telpon" to siswa.telpon
-        )
-
-        docRef.set(data).await()
     }
 }
