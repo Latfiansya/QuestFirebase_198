@@ -1,5 +1,6 @@
 package com.example.myfirebase.repositori
 
+import android.util.Log
 import com.example.myfirebase.modeldata.Siswa
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -46,7 +47,8 @@ class FirebaseRepositorySiswa : RepositorySiswa {
 
             docRef.set(data).await()
         } catch (e: Exception) {
-            println("Error saving data: ${e.message}")
+            Log.e("FirestoreError", "Gagal menyimpan data", e)
+            throw e
         }
 
     }
