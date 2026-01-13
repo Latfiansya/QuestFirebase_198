@@ -25,8 +25,9 @@ data class UIStateSiswa(
     val isEntryValid: Boolean = false
 )
 
-fun Siswa.toUIStateSiswa(isEntryValid: Boolean = false): UIStateSiswa =
-    UIStateSiswa(
-        detailSiswa = this.toDetailSiswa(),
-        isEntryValid = isEntryValid
-    )
+fun Siswa.toUiStateSiswa(
+    isEntryValid: Boolean = false
+): UIStateSiswa = UIStateSiswa(
+    detailSiswa = this.toDetailSiswa(),
+    isEntryValid = isEntryValid
+)
