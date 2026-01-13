@@ -1,3 +1,5 @@
+package com.example.myfirebase.view
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +22,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import com.example.myfirebase.R
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -33,8 +34,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myfirebase.viewmodel.HomeViewModel
+import com.example.myfirebase.viewmodel.PenyediaViewModel
+import com.example.myfirebase.R
 import com.example.myfirebase.modeldata.Siswa
 import com.example.myfirebase.view.route.DestinasiHome
+import com.example.myfirebase.viewmodel.StatusUiSiswa
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,9 +64,7 @@ fun HomeScreen(
             FloatingActionButton(
                 onClick = navigateToItemEntry,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(
-                    dimensionResource(id = R.dimen.padding_large)
-                )
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -74,7 +77,7 @@ fun HomeScreen(
             statusUiSiswa = viewModel.statusUiSiswa,
             onSiswaClick = navigateToItemUpdate,
             retryAction = viewModel::loadSiswa,
-            modifier = Modifier
+            modifier = modifier
                 .padding(innerPadding)
                 .fillMaxSize()
         )
@@ -94,16 +97,16 @@ fun HomeBody(
     ) {
         when (statusUiSiswa) {
             is StatusUiSiswa.Loading -> LoadingScreen()
-
-            is StatusUiSiswa.Success -> DaftarSiswa(
-                itemSiswa = statusUiSiswa.siswa,
-                onSiswaClick = { onSiswaClick(it.id.toInt()) }
-            )
-
-            is StatusUiSiswa.Error -> ErrorScreen(
-                retryAction = retryAction,
-                modifier = Modifier.fillMaxSize()
-            )
+            is StatusUiSiswa.Success ->
+                DaftarSiswa(
+                    itemSiswa = statusUiSiswa.siswa,
+                    onSiswaClick = { onSiswaClick(it.id.toInt()) }
+                )
+            is StatusUiSiswa.Error ->
+                ErrorScreen(
+                    retryAction,
+                    modifier = modifier.fillMaxSize()
+                )
         }
     }
 }
@@ -175,7 +178,7 @@ fun ItemSiswa(
                     text = siswa.nama,
                     style = MaterialTheme.typography.titleLarge
                 )
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(Modifier.weight(1f))
                 Icon(
                     imageVector = Icons.Default.Phone,
                     contentDescription = null
@@ -185,7 +188,6 @@ fun ItemSiswa(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-
             Text(
                 text = siswa.alamat,
                 style = MaterialTheme.typography.titleMedium
