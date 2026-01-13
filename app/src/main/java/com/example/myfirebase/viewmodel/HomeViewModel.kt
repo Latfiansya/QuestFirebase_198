@@ -1,3 +1,5 @@
+package com.example.myfirebase.viewmodel
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -28,7 +30,6 @@ class HomeViewModel(
     fun loadSiswa() {
         viewModelScope.launch {
             statusUiSiswa = StatusUiSiswa.Loading
-
             statusUiSiswa = try {
                 StatusUiSiswa.Success(repositorySiswa.getDataSiswa())
             } catch (e: IOException) {
